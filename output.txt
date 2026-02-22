@@ -1,0 +1,6 @@
+I like pizza! 
+This string has been added using file.write()
+Eugene
+Squidward
+Spongebob
+Patrick
