@@ -1,5 +1,6 @@
 # Python Calculator
 import sys
+import requests
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QPushButton, QLabel, QLineEdit, QVBoxLayout
 from PyQt5.QtCore import Qt
@@ -28,18 +29,17 @@ class Calculator(QWidget):
         self.button_numerase = QPushButton("<-", self)
         self.button_par1 = QPushButton("(", self)
         self.button_par2 = QPushButton(")", self)
+        self.button_dot = QPushButton(".", self)
+        self.button_del = QPushButton("del", self)
 
         self.initUI()
 
     def initUI(self):
-        self.test_attribute_bool = True
-        self.buttoneraseclicked()
-        self.result = ""
-        self.num = ""
-        self.equal_bool = False
-        self.operator_bool = False
+        self.test_attribute_bool = True # attribute created for test 
+        self.buttondelclicked()
+        self.aux_num = ""
         self.setWindowTitle("Calculator APP")
-        self.setGeometry(900, 400, 400, 400)
+        self.setGeometry(1080, 600, 400, 600)
 
         vbox = QVBoxLayout()
         vbox.addWidget(self.num_label)
@@ -122,7 +122,15 @@ class Calculator(QWidget):
         self.button_par2.setObjectName("button_par2")
         self.button_par2.setGeometry(150,50, 50, 50)
         self.button_par2.clicked.connect(self.buttonpar2clicked)
-    
+
+        self.button_dot.setObjectName("button_dot")
+        self.button_dot.setGeometry(200,250, 50, 50)
+        self.button_dot.clicked.connect(self.buttondotclicked)
+
+        self.button_del.setObjectName("button_del")
+        self.button_del.setGeometry(300,50, 50, 50)
+        self.button_del.clicked.connect(self.buttondelclicked)
+
         self.setStyleSheet("""
             QLabel, QPushButton{
                 font-family: calibri;
@@ -147,138 +155,178 @@ class Calculator(QWidget):
                 font-weight: bold;
             }
         """)
-    def useroperator(self):
-        self.operator = input("Enter the operator: + , - , * , /  -> ")
-        return self.operator
     
     def button1clicked(self):
-        self.num += "1"
-        self.shownumber()
+        if not self.equal_bool:
+            self.num += "1"
+            self.shownumber()
+        else:
+            pass
     
     def button2clicked(self):
-        self.num += "2"
-        self.shownumber()
-    
-    def button3clicked(self):
-        self.num += "3"
-        self.shownumber()
-    
-    def button4clicked(self):
-        self.num += "4"
-        self.shownumber()
-    
-    def button5clicked(self):
-        self.num += "5"
-        self.shownumber()
-    
-    def button6clicked(self):
-        self.num += "6"
-        self.shownumber()
-
-    def button7clicked(self):
-        self.num += "7"
-        self.shownumber()
-
-    def button8clicked(self):
-        self.num += "8"
-        self.shownumber()
-
-    def button9clicked(self):
-        self.num += "9"
-        self.shownumber()
-
-    def button0clicked(self):
-        self.num += "0"
-        self.shownumber()
-    
-    def buttonpar1clicked(self):
-        self.num += "("
-        self.shownumber()
-
-    def buttonpar2clicked(self):
-        self.num += ")"
-        self.shownumber()
-
-    def buttonequalclicked(self):
-        #if self.operator_bool and self.equal_bool == False and self.num != "":
-        if self.equal_bool == False and self.num != "":### Modify
-            self.equal = " = "
-            #self.number3 = int(self.num)
-            self.shownumber()
-            self.result = eval(self.num) ###Modify
-            print(self.result) ###Modify
-            #self.num=""
-            self.equal_bool = True
-            # if self.operator == "+":
-            #     self.result = self.number2 + self.number3
-            # elif self.operator == "-":
-            #     self.result = self.number2 - self.number3
-            # elif self.operator == "*":
-            #     self.result = self.number2 * self.number3
-            # elif self.operator == "/":
-            #     self.result = self.number2 / self.number3
-            # else:
-            #     print("Something went wrong!")
-            
+        if not self.equal_bool:
+            self.num += "2"
             self.shownumber()
         else:
             pass
 
+    def buttoneraseclicked(self):
+        if not self.equal_bool:
+            self.num = self.num[:-1]
+            self.shownumber()
+        else:
+            pass
+
+    def button3clicked(self):
+        if not self.equal_bool:
+            self.num += "3"
+            self.shownumber()
+        else:
+            pass
+    
+    def button4clicked(self):
+        if not self.equal_bool:
+            self.num += "4"
+            self.shownumber()
+        else:
+            pass
+    
+    def button5clicked(self):
+        if not self.equal_bool:
+            self.num += "5"
+            self.shownumber()
+        else:
+            pass
+    
+    def button6clicked(self):
+        if not self.equal_bool:
+            self.num += "6"
+            self.shownumber()
+        else:
+            pass
+
+    def button7clicked(self):
+        if not self.equal_bool:
+            self.num += "7"
+            self.shownumber()
+        else:
+            pass
+
+    def button8clicked(self):
+        if not self.equal_bool:
+            self.num += "8"
+            self.shownumber()
+        else:
+            pass
+
+    def button9clicked(self):
+        if not self.equal_bool:
+            self.num += "9"
+            self.shownumber()
+        else:
+            pass
+
+    def button0clicked(self):
+        if not self.equal_bool:
+            self.num += "0"
+            self.shownumber()
+        else:
+            pass
+    
+    def buttonpar1clicked(self):
+        if not self.equal_bool:
+            self.num += "("
+            self.shownumber()
+        else:
+            pass
+
+    def buttonpar2clicked(self):
+        if not self.equal_bool:
+            self.num += ")"
+            self.shownumber()
+        else:
+            pass
+
+    def buttondotclicked(self):
+        if not self.equal_bool:
+            self.num += "."
+            self.shownumber()
+        else:
+            pass
+
+    def buttonequalclicked(self):
+        try:
+            if self.equal_bool == False and self.num != "":
+                self.equal = " = "
+                self.result = eval(self.num) 
+                self.equal_bool = True 
+                self.shownumber()
+            else:
+                pass
+        except ZeroDivisionError:
+            self.num_label.setText("Division by zero!")
+        except:
+            self.num_label.setText("Wrong operation! Try again")
+            
+
     def buttonmulclicked(self):
-        if not self.operator_bool and self.num != "" and self.equal_bool == False:
-            #self.operator = "*"
-            self.num += " * " ### Modify
-            #self.operator_bool = True
-            #self.number2 = int(self.num)
-            #self.num=""
+        self.aux_num = ""
+        if self.num != "" and self.equal_bool == False:
+            self.num += " * " 
+            self.shownumber()
+        elif self.equal_bool == True:
+            self.aux_num = self.result
+            self.buttondelclicked()
+            self.num += str(self.aux_num) + " * "
             self.shownumber()
         else:
             pass
     
 
     def buttonsubclicked(self):
-        if not self.operator_bool and self.num != "" and self.equal_bool == False:
-            #self.operator = "-"
-            self.num += " - " ### Modify
-            #self.operator_bool = True
-            #self.number2 = int(self.num)
-            #self.num=""
+        self.aux_num = ""
+        if self.num != "" and self.equal_bool == False:
+            self.num += " - " 
+            self.shownumber()
+        elif self.equal_bool == True:
+            self.aux_num = self.result
+            self.buttondelclicked()
+            self.num += str(self.aux_num) + " - "
             self.shownumber()
         else:
             pass
         
     def buttondivclicked(self):
-        if not self.operator_bool and self.num != "" and self.equal_bool == False:
-            #self.operator = "/"
-            self.num += " / " ### Modify
-            #self.operator_bool = True
-            #self.number2 = int(self.num)
-            #self.num=""
+        self.aux_num = ""
+        if self.num != "" and self.equal_bool == False:
+            self.num += " / " 
+            self.shownumber()
+        elif self.equal_bool == True:
+            self.aux_num = self.result
+            self.buttondelclicked()
+            self.num += str(self.aux_num) + " / "
             self.shownumber()
         else:
             pass
         
     def buttonaddclicked(self):
-        if not self.operator_bool and self.num != "" and self.equal_bool == False:
-            #self.operator = "+"
-            self.num += " + "### Modify
-            #self.operator_bool = True
-            #self.number2 = int(self.num)
-            #self.num=""
+        if self.num != "" and self.equal_bool == False:
+            self.num += " + "
+            self.shownumber()
+        elif self.equal_bool == True:
+            self.aux_num = self.result
+            self.buttondelclicked()
+            self.num += str(self.aux_num) + " + "
             self.shownumber()
         else:
             pass
 
-    def buttoneraseclicked(self):
+    def buttondelclicked(self):
         self.operator = ""
         self.num = ""
         self.operator = ""
-        self.number1 =  ""       
-        self.number2 = ""
-        self.number3 = ""
         self.result = ""
         self.equal = ""
-        self.operator_bool = False
         self.equal_bool = False
         self.shownumber()
     
@@ -288,64 +336,33 @@ class Calculator(QWidget):
 
     def test_attribute(self):
         num = self.num
-        operator = self.operator
-        number1 = self.number1
-        number2 = self.number2
-        number3 = self.number3
         result = self.result
         equal = self.equal
-        operator_bool = self.operator_bool
         equal_bool = self.equal_bool
+        aux_num = self.aux_num
         while self.test_attribute_bool:
             time.sleep(1)
             if (num != self.num or
-                operator != self.operator or
-                number1 != self.number1 or
-                number2 != self.number2 or
-                number3 != self.number3 or
                 result != self.result or
                 equal != self.equal or
-                operator_bool != self.operator_bool or
                 equal_bool != self.equal_bool):
-                    print("\n***************************************************")
-                    print(f"self.num: {self.num}")
-                    print(f"self.operator: {self.operator}")
-                    print(f"self.number1: {self.number1}")
-                    print(f"self.number2: {self.number2}")
-                    print(f"self.number3: {self.number3}")
-                    print(f"self.result: {self.result}")
-                    print(f"self.equal: {self.equal}")
-                    print(f"self.operator_bool: {self.operator_bool}")
-                    print(f"self.equal_bool: {self.equal_bool}")
-                    print("***************************************************\n")        
-                    num = self.num
-                    operator = self.operator
-                    number1 = self.number1
-                    number2 = self.number2
-                    number3 = self.number3
-                    result = self.result
-                    equal = self.equal
-                    operator_bool = self.operator_bool
-                    equal_bool = self.equal_bool
+                print("\n***************************************************")
+                print(f"self.num: {self.num}")
+                print(f"self.result: {self.result}")
+                print(f"self.equal: {self.equal}")
+                print(f"self.equal_bool: {self.equal_bool}")
+                print(f"self.aux_num: {self.aux_num}")
+                print("***************************************************\n")        
+                num = self.num
+                result = self.result
+                equal = self.equal
+                equal_bool = self.equal_bool
+                aux_num = self.aux_num
             else:
-                if self.test_attribute_bool == False:
-                    break
-                else:
-                    pass
-
+                pass
 
     def shownumber(self):
         self.num_label.setText(f"{self.num}{self.equal}{self.result}")
-        # if self.operator_bool and self.equal_bool == False:
-        #     self.num_label.setText(f"{self.number2} {self.operator} {self.num}{self.number3} {self.equal} {self.result}")
-        # elif not self.operator_bool and self.equal_bool == False:
-        #     self.num_label.setText(f"{self.num} {self.operator}")
-        # elif self.operator_bool and self.equal_bool == True:
-        #     self.equal_bool = True
-        #     self.num_label.setText(f"{self.number2} {self.operator} {self.number3} {self.equal} {self.result}")
-            
-    def printresult(self):
-        self.operator_label.setText(f"{self.number2} {self.operator} {self.number3} {self.equal} {self.result}")
 
 if __name__=="__main__":
     app = QApplication(sys.argv) #It knows how to set up the dis play depending of the device's display
